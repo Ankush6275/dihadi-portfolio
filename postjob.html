@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Post Job | Dihadi</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(to right, #fdfbfb, #ebedee);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      width: 90%;
+      max-width: 500px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #0077ff;
+      margin-bottom: 30px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #0077ff;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 16px;
+      width: 100%;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #005fcc;
+    }
+
+    .back-btn {
+      background: transparent;
+      color: #0077ff;
+      border: none;
+      margin-top: 15px;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Post a Job</h2>
+    <form id="jobForm">
+      <input type="text" id="title" placeholder="Work Title" required />
+      <input type="number" id="salary" placeholder="Monthly Salary (INR)" required />
+      <select id="jobType" required>
+        <option value="">Select Job Type</option>
+        <option value="Full-Time">Full-Time</option>
+        <option value="Part-Time">Part-Time</option>
+        <option value="Contract">Contract</option>
+      </select>
+      <input type="text" id="company" placeholder="Company Name" required />
+      <input type="tel" id="contact" placeholder="Contact Number" required />
+
+      <button type="submit">Submit Your Job</button>
+    </form>
+
+    <button class="back-btn" onclick="goBack()">← Back to Dashboard</button>
+  </div>
+
+  <script>
+    function goBack() {
+      window.location.href = "dashboard.html";
+    }
+
+    document.getElementById("jobForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const job = {
+        title: document.getElementById("title").value,
+        salary: document.getElementById("salary").value,
+        type: document.getElementById("jobType").value,
+        company: document.getElementById("company").value,
+        contact: document.getElementById("contact").value
+      };
+
+      // Save job in localStorage for now (replace with MongoDB in backend step)
+      const jobs = JSON.parse(localStorage.getItem("jobs") || "[]");
+      jobs.push(job);
+      localStorage.setItem("jobs", JSON.stringify(jobs));
+
+      alert("Job Submitted Successfully!");
+      window.location.href = "findjob.html";
+    });
+  </script>
+
+</body>
+</html>

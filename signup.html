@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup - Dihadi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #f5f7fa, #c3cfe2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .signup-box {
+            background: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="date"],
+        input[type="tel"],
+        select {
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .show-password {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .show-password input {
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 12px;
+            background-color: #28a745;
+            color: #fff;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .bottom-text {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .bottom-text a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .bottom-text a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-box">
+        <h2>Create a Dihadi Account</h2>
+        <form onsubmit="return validateSignup()">
+            <label for="fullname">Full Name</label>
+            <input type="text" id="fullname" placeholder="Enter your full name" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter your email" required>
+
+            <label for="contact">Contact Number</label>
+            <input type="tel" id="contact" placeholder="Enter your 10-digit contact" required>
+
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" required>
+
+            <label for="gender">Gender</label>
+            <select id="gender" required>
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Create a password" required>
+
+            <div class="show-password">
+                <input type="checkbox" id="togglePassword" onclick="togglePasswordVisibility()">
+                <label for="togglePassword">Show Password</label>
+            </div>
+
+            <button type="submit">Signup</button>
+        </form>
+
+        <div class="bottom-text">
+            <p>Already have an account? <a href="login.html">Login here</a></p>
+        </div>
+    </div>
+
+    <script>
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+        }
+
+        function calculateAge(dob) {
+            const birthDate = new Date(dob);
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        }
+
+        function validateSignup() {
+            const email = document.getElementById('email').value;
+            const contact = document.getElementById('contact').value;
+            const dob = document.getElementById('dob').value;
+            const password = document.getElementById('password').value;
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const phoneRegex = /^\d{10}$/;
+            const passwordRegex = /^(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/;
+
+            if (!emailRegex.test(email)) {
+                alert("Enter a valid email address.");
+                return false;
+            }
+
+            if (!phoneRegex.test(contact)) {
+                alert("Enter a valid 10-digit phone number.");
+                return false;
+            }
+
+            if (calculateAge(dob) < 18) {
+                alert("You must be at least 18 years old to register.");
+                return false;
+            }
+
+            if (!passwordRegex.test(password)) {
+                alert("Password must be at least 8 characters long, start with a capital letter, and contain one special character.");
+                return false;
+            }
+
+            // ✅ Save and redirect to dashboard
+            localStorage.setItem('dihadiUserEmail', email);
+            localStorage.setItem('dihadiUserPassword', password);
+
+            alert("Signup successful!");
+            window.location.href = "dashboard.html";
+            return false; // stop actual form submission
+        }
+    </script>
+</body>
+</html>

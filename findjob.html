@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Find Job | Dihadi</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(to right, #f6f8f9, #e3e7ea);
+    }
+
+    h2 {
+      text-align: center;
+      color: #0077ff;
+      margin-bottom: 20px;
+    }
+
+    .job-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .job-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      width: 280px;
+    }
+
+    .job-card h3 {
+      color: #0077ff;
+      margin-bottom: 10px;
+    }
+
+    .job-card p {
+      margin: 5px 0;
+      font-size: 15px;
+    }
+
+    .apply-btn {
+      background-color: #0077ff;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 14px;
+      width: 100%;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .apply-btn:hover {
+      background-color: #005fcc;
+    }
+
+    .back-btn {
+      display: block;
+      margin: 20px auto;
+      background: transparent;
+      color: #0077ff;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Available Jobs</h2>
+
+  <div class="job-list" id="jobList"></div>
+
+  <button class="back-btn" onclick="goBack()">← Back to Dashboard</button>
+
+  <script>
+    function goBack() {
+      window.location.href = "dashboard.html";
+    }
+
+    const jobList = document.getElementById("jobList");
+    const jobs = JSON.parse(localStorage.getItem("jobs") || "[]");
+
+    if (jobs.length === 0) {
+      jobList.innerHTML = "<p>No jobs posted yet.</p>";
+    } else {
+      jobs.forEach((job, index) => {
+        const jobCard = document.createElement("div");
+        jobCard.className = "job-card";
+
+        jobCard.innerHTML = `
+          <h3>${job.title}</h3>
+          <p><strong>Salary:</strong> ₹${job.salary}</p>
+          <p><strong>Type:</strong> ${job.type}</p>
+          <p><strong>Company:</strong> ${job.company}</p>
+          <p><strong>Contact:</strong> ${job.contact}</p>
+          <button class="apply-btn" onclick="applyJob('${job.title}')">Apply</button>
+        `;
+
+        jobList.appendChild(jobCard);
+      });
+    }
+
+    function applyJob(title) {
+      alert(`Applied to ${title} successfully!`);
+    }
+  </script>
+
+</body>
+</html>

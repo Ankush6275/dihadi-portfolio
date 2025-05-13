@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Dihadi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #f5f7fa, #c3cfe2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .login-box {
+            background: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .show-password {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .show-password input {
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 12px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .bottom-text {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .bottom-text a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .bottom-text a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h2>Login to Dihadi</h2>
+        <form onsubmit="return validateLogin()">
+            <label for="email">Email or Contact</label>
+            <input type="text" id="email" placeholder="Enter your email or contact" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password" required>
+
+            <div class="show-password">
+                <input type="checkbox" id="togglePassword" onclick="togglePasswordVisibility()">
+                <label for="togglePassword">Show Password</label>
+            </div>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <div class="bottom-text">
+            <p>Don't have an account? <a href="signup.html">Sign up here</a></p>
+        </div>
+    </div>
+
+    <script>
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+        }
+
+        function validateLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const phoneRegex = /^\d{10}$/;
+            const passwordRegex = /^(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/;
+
+            if (!(emailRegex.test(email) || phoneRegex.test(email))) {
+                alert("Enter a valid email or 10-digit phone number.");
+                return false;
+            }
+
+            if (!passwordRegex.test(password)) {
+                alert("Password must be at least 8 characters long, start with a capital letter, and contain one special character.");
+                return false;
+            }
+
+            // Save to local storage (optional)
+            localStorage.setItem('dihadiUserEmail', email);
+            localStorage.setItem('dihadiUserPassword', password);
+
+            // ✅ Redirect to dashboard
+            window.location.href = "dashboard.html";
+
+            return false; // prevent form default submit
+        }
+    </script>
+</body>
+</html>
